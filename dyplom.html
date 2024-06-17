@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоди</title>
+    <link rel="stylesheet" href="dyplom.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 500px;
+            margin-top: 20px;
+            display: none; /* Спочатку карта прихована */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Прогноз погоди</h1>
+        <div id="current-date"></div>
+    </header>
+    <main>
+        <div id="region-selector">
+            <label for="region">Виберіть регіон:</label>
+            <select id="region">
+                <option value="Kyiv">Київ</option>
+                <option value="Lviv">Львів</option>
+                <option value="Odessa">Одеса</option>
+                
+            </select>
+            <button id="update-weather-btn">Оновити погоду</button>
+            <button id="show-map-btn">Показати карту</button>
+        </div>
+        <div id="data-display">
+            <h2>Прогноз погоди на наступні 7 днів</h2>
+            <div id="weather-forecast" class="forecast-container">
+                <div class="weather-day" data-day="${day}">
+                    <div class="day-info">
+                        <div class="day-name">${day}</div> <!-- Назва дня -->
+                        <div class="day-date">${forecast[day].date}</div> <!-- Дата -->
+                        <div class="day-month">${forecast[day].month}</div> <!-- Місяць -->
+                    </div>
+                    <div class="weather-info">
+                        <img src="${getWeatherIcon(forecast[day].condition)}" alt="${forecast[day].condition}">
+                        <div class="temperature-info">
+                            <div class="temperature">${forecast[day].minTemp}°C - ${forecast[day].maxTemp}°C</div> <!-- Температура -->
+                            <div class="weather-condition">${forecast[day].condition}</div> <!-- Погодні умови -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Кінець коду для кожного дня -->
+            </div>
+            <div id="additional-info"></div>
+        </div>
+        <div id="map"></div>
+    </main>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="document.js"></script>
+    <script>
+        // Отримуємо поточну дату
+        const currentDate = new Date();
+        // Отримуємо рік, місяць і день
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1; // Місяці у JavaScript починаються з 0
+        const day = currentDate.getDate();
+        // Формуємо рядок для відображення поточної дати
+        const dateString = `Поточна дата: ${day}.${month}.${year}`;
+        document.getElementById('current-date').textContent = dateString;
+    </script>
+</body>
+</html>
